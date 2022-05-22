@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <property name="LogsPath" value="logs/test.log" />
+
+    <appender name="RollingFileAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LogsPath}</file>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%thread] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="Console"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{ISO8601}  %-5p [%t]: %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level="debug"/>
+
+    <logger name="ru.job4j.cinema" additivity="false">
+        <appender-ref ref="RollingFileAppender"/>
+        <appender-ref ref="Console"/>
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="RollingFileAppender"/>
+    </root>
+</configuration>

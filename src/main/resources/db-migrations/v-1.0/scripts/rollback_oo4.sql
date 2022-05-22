@@ -1,0 +1,1 @@
+TRUNCATE users, sessions, ticket RESTART IDENTITY CASCADE;

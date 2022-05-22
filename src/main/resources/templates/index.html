@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <title>cinema</title>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" style="border: 1px solid cornflowerblue;
+                                       border-width: 2px 4px;
+                                       border-radius: 40px 20% / 10% 40%;" href="#">
+            <span style="color: beige">CINEMA</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#">Main<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link d-flex flex-row-reverse" th:if="${user.name == 'Guest'}" th:href="@{/loginPage}">
+                    <span>Login</span>
+                </a>
+                <a class="nav-item nav-link" th:if="${user.name == 'Guest'}" th:href="@{/registration}">
+                    <span>Registration</span>
+                </a>
+                <a class="nav-item nav-link" th:if="${user.name != 'Guest'}" th:href="@{/toUserAccount}">
+                    <span class="disabled text-info" th:text="${user.name}"></span>
+                    <span> account</span>
+                </a>
+                <a class="nav-item nav-link " th:if="${user.name != 'Guest'}" th:href="@{/logout}">
+                    <span> | Logout</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <!--
+    <h4 style="text-align: center">
+        Booking a seat for
+        <div th:text="${currentMovieSessionName}">-</div>
+    </h4>
+    -->
+
+    <div class="offset-md-2 col-md-8">
+        <div class="row">
+            <div class="col" style="background-color: #343a40; color: beige;">
+                <span th:if="${user.getEmail()} != null">Booking a seat for the</span>
+                <span class="col" th:text="${currentMovieSession.name}"
+                      style="background-color: #343a40; color: beige"> </span>
+            </div>
+        </div>
+        <form th:action="@{/buyTicket}" method="POST">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th style="width: 120px;">row / seat</th>
+                    <th style="text-align: center">1</th>
+                    <th style="text-align: center">2</th>
+                    <th style="text-align: center">3</th>
+                    <th style="text-align: center">4</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th style="text-align: center">1</th>
+                    <td th:if="${tickets[0].getUserId() != 0}">
+                        <p class="text-center text-white text-info  "> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[0].getUserId() != 0}"><label for="11"></label>
+                        <input type="radio" name="seat" value="11" id="11"> row 1, seat 1
+                    </td>
+                    <td th:if="${tickets[1].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[1].getUserId() != 0}"><label for="12"></label>
+                        <input type="radio" name="seat" value="12" id="12"> row 1, seat 2
+                    </td>
+                    <td th:if="${tickets[2].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[2].getUserId() != 0}"><label for="13"></label>
+                        <input type="radio" name="seat" value="13" id="13"> row 1, seat 3
+                    </td>
+                    <td th:if="${tickets[3].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[3].getUserId() != 0}"><label for="14"></label>
+                        <input type="radio" name="seat" value="14" id="14"> row 1, seat 4
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center">2</th>
+                    <td th:if="${tickets[4].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[4].getUserId() != 0}"><label for="21"></label>
+                        <input type="radio" name="seat" value="21" id="21"> row 2, seat 1
+                    </td>
+                    <td th:if="${tickets[5].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[5].getUserId() != 0}"><label for="22"></label>
+                        <input type="radio" name="seat" value="22" id="22"> row 2, seat 2
+                    </td>
+                    <td th:if="${tickets[6].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[6].getUserId() != 0}"><label for="23"></label>
+                        <input type="radio" name="seat" value="23" id="23"> row 2, seat 3
+                    </td>
+                    <td th:if="${tickets[7].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[7].getUserId() != 0}"><label for="24"></label>
+                        <input type="radio" name="seat" value="24" id="24"> row 2, seat 4
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center">3</th>
+                    <td th:if="${tickets[8].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[8].getUserId() != 0}"><label for="31"></label>
+                        <input type="radio" name="seat" value="31" id="31"> row 3, seat 1
+                    </td>
+                    <td th:if="${tickets[9].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[9].getUserId() != 0}"><label for="32"></label>
+                        <input type="radio" name="seat" value="32" id="32"> row 3, seat 2
+                    </td>
+                    <td th:if="${tickets[10].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[10].getUserId() != 0}"><label for="33"></label>
+                        <input type="radio" name="seat" value="33" id="33"> row 3, seat 3
+                    </td>
+                    <td th:if="${tickets[11].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[11].getUserId() != 0}"><label for="34"></label>
+                        <input type="radio" name="seat" value="34" id="34"> row 3, seat 4
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center">4</th>
+                    <td th:if="${tickets[12].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[12].getUserId() != 0}"><label for="41"></label>
+                        <input type="radio" name="seat" value="41" id="41"> row 4, seat 1
+                    </td>
+                    <td th:if="${tickets[13].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[13].getUserId() != 0}"><label for="42"></label>
+                        <input type="radio" name="seat" value="42" id="42"> row 4, seat 2
+                    </td>
+                    <td th:if="${tickets[14].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[14].getUserId() != 0}"><label for="43"></label>
+                        <input type="radio" name="seat" value="43" id="43"> row 4, seat 3
+                    </td>
+                    <td th:if="${tickets[15].getUserId() != 0}">
+                        <p class="text-center text-white text-info"> reserved </p>
+                    </td>
+                    <td th:unless="${tickets[15].getUserId() != 0}"><label for="44"></label>
+                        <input type="radio" name="seat" value="44" id="44"> row 4, seat 4
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row justify-content-end">
+                <div class="dropdown show">
+                    <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        choose a movie session
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a th:each="movie: ${movieSessions}" class="dropdown-item"
+                           th:href="@{|/chooseSession/${movie.id}|}">
+                            <span th:text="${movie.name}">movieAct</span>
+
+                        </a>
+                    </div>
+                </div>
+                <input type="hidden" name="currentMovieSessionId" th:value="${currentMovieSession.getId()}">
+                <input type="hidden" name="userId" th:value="${user.getId()}">
+             </div>
+            <div class="row">
+                <div class="coll">
+                    <button th:if="${user.getEmail() != null}" type="submit" class="btn btn-outline-primary btn-lg">
+                        submit
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div th:if="${failSeatSelect}" class="alert alert-primary alert-dismissible fade show" role="alert">
+                please select a seat to continue
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div th:if="${ticketAlreadyBooked}" class="alert alert-primary alert-dismissible fade show" role="alert">
+                sorry, this ticket was already booked, choose another one
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </form>
+        <br>
+    </div>
+</div>
+</body>
+</html>
