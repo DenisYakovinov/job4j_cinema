@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class TicketDaoImpl implements GenericDao<Ticket> {
+public class TicketDaoImpl implements TicketDao {
 
     private static final String BASE_SELECT_QUERY_PART = "SELECT * FROM ticket t JOIN sessions s on t.session_id = s.id";
 
@@ -26,6 +26,7 @@ public class TicketDaoImpl implements GenericDao<Ticket> {
         this.ticketMapper = ticketMapper;
     }
 
+    @Override
     public Optional<Ticket> add(Ticket ticket) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("INSERT INTO ticket (session_id, row, cell, user_id)"
@@ -50,6 +51,7 @@ public class TicketDaoImpl implements GenericDao<Ticket> {
         }
     }
 
+    @Override
     public List<Ticket> findAll() {
         List<Ticket> tickets = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -66,6 +68,7 @@ public class TicketDaoImpl implements GenericDao<Ticket> {
         return tickets;
     }
 
+    @Override
     public List<Ticket> findAllBySessionId(int sessionId) {
         List<Ticket> tickets = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -85,6 +88,7 @@ public class TicketDaoImpl implements GenericDao<Ticket> {
         return tickets;
     }
 
+    @Override
     public List<Ticket> findAllByUserId(int userId) {
         List<Ticket> tickets = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -104,6 +108,7 @@ public class TicketDaoImpl implements GenericDao<Ticket> {
         return tickets;
     }
 
+    @Override
     public void update(Ticket ticket) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("UPDATE ticket SET (session_id, row, cell, user_id)"
@@ -120,6 +125,7 @@ public class TicketDaoImpl implements GenericDao<Ticket> {
         }
     }
 
+    @Override
     public Optional<Ticket> findById(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(String.format("%s WHERE id = ?", BASE_SELECT_QUERY_PART));

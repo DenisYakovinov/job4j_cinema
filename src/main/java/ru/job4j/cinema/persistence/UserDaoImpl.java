@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class UserDaoImpl implements GenericDao<User> {
+public class UserDaoImpl implements UserDao {
     private final BasicDataSource pool;
     private final RowMapper<User> userMapper;
 
@@ -26,6 +26,7 @@ public class UserDaoImpl implements GenericDao<User> {
         this.userMapper = userMapper;
     }
 
+    @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -42,6 +43,7 @@ public class UserDaoImpl implements GenericDao<User> {
         return users;
     }
 
+    @Override
     public Optional<User> add(User user) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("INSERT INTO users (name, email, phone, password) VALUES (?, ?, ?, ?)",
@@ -66,6 +68,7 @@ public class UserDaoImpl implements GenericDao<User> {
         }
     }
 
+    @Override
     public void update(User user) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("UPDATE users SET (name, email, phone, password) = (?, ?, ?, ?) WHERE id = ?")
@@ -81,6 +84,7 @@ public class UserDaoImpl implements GenericDao<User> {
         }
     }
 
+    @Override
     public Optional<User> findById(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE id = ?")
@@ -97,6 +101,7 @@ public class UserDaoImpl implements GenericDao<User> {
         return Optional.empty();
     }
 
+    @Override
     public Optional<User> findUserByEmailAndPwd(String email, String pass) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?")

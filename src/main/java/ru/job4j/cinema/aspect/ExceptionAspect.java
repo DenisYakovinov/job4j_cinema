@@ -6,8 +6,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import ru.job4j.cinema.exception.*;
-import ru.job4j.cinema.service.TicketService;
-import ru.job4j.cinema.service.UserService;
+import ru.job4j.cinema.service.TicketServiceImpl;
+import ru.job4j.cinema.service.UserServiceImpl;
 
 @Aspect
 @Component
@@ -21,11 +21,11 @@ public class ExceptionAspect {
     private void inServiceLayer() {
     }
 
-    @Pointcut("execution(* ru.job4j.cinema.service.TicketService.add(ru.job4j.cinema.model.Ticket))")
+    @Pointcut("execution(* ru.job4j.cinema.service.TicketServiceImpl.add(ru.job4j.cinema.model.Ticket))")
     private void toAddTicketMethod() {
     }
 
-    @Pointcut("execution(* ru.job4j.cinema.service.UserService.add(ru.job4j.cinema.model.User))")
+    @Pointcut("execution(* ru.job4j.cinema.service.UserServiceImpl.add(ru.job4j.cinema.model.User))")
     private void toAddUserMethod() {
     }
 
@@ -36,10 +36,10 @@ public class ExceptionAspect {
 
     @AfterThrowing(pointcut = "allPublicMethods() && toAddTicketMethod() || toAddUserMethod()", throwing = "exception")
     public void afterThrowing(JoinPoint joinPoint, UniqueViolationException exception) {
-        if (joinPoint.getTarget() instanceof TicketService) {
+        if (joinPoint.getTarget() instanceof TicketServiceImpl) {
             throw new TicketBookedException(exception.getMessage(), exception);
         }
-        if (joinPoint.getTarget() instanceof UserService) {
+        if (joinPoint.getTarget() instanceof UserServiceImpl) {
             throw new EmailReservedException(exception.getMessage(), exception);
         }
     }

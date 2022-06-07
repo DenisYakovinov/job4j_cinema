@@ -9,6 +9,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.job4j.cinema.config.TestDataSource;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.persistence.mapper.SessionMapper;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
@@ -19,10 +20,21 @@ class SessionDaoImplTest {
     BasicDataSource dataSource;
 
     @Test
-    void whenAddSession() {
+    void whenAddSessionShouldAddIntoDB() {
         SessionDaoImpl sessionDao = new SessionDaoImpl(dataSource, new SessionMapper());
         Session session = new Session(1, "imaginary movie");
         sessionDao.add(session);
+        Session sessionInDb = sessionDao.findById(session.getId()).get();
+        assertEquals(session, sessionInDb);
+    }
+
+    @Test
+    void whenUpdateSession() {
+        SessionDaoImpl sessionDao = new SessionDaoImpl(dataSource, new SessionMapper());
+        Session sessionFirst = new Session(1, "movie");
+        Session session = new Session(1, "updated movie");
+        sessionDao.add(sessionFirst);
+        sessionDao.update(session);
         Session sessionInDb = sessionDao.findById(session.getId()).get();
         assertEquals(session, sessionInDb);
     }

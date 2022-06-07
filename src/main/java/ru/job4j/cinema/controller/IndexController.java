@@ -1,28 +1,28 @@
 package ru.job4j.cinema.controller;
 
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.User;
+
 import ru.job4j.cinema.service.SessionService;
 import ru.job4j.cinema.service.TicketService;
-import ru.job4j.cinema.service.UserService;
 import ru.job4j.cinema.util.SessionUtil;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
+@ThreadSafe
 public class IndexController {
 
-    private final UserService userService;
     private final TicketService ticketService;
     private final SessionService sessionService;
 
-    public IndexController(UserService userService, TicketService ticketService, SessionService sessionService) {
-        this.userService = userService;
+    public IndexController(TicketService ticketService, SessionService sessionService) {
         this.ticketService = ticketService;
         this.sessionService = sessionService;
     }

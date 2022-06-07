@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class SessionDaoImpl implements GenericDao<Session> {
+public class SessionDaoImpl implements SessionDao {
 
     private final BasicDataSource pool;
     private final RowMapper<Session> sessionMapper;
@@ -25,6 +25,7 @@ public class SessionDaoImpl implements GenericDao<Session> {
         this.sessionMapper = sessionMapper;
     }
 
+    @Override
     public List<Session> findAll() {
         List<Session> sessions = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -41,6 +42,7 @@ public class SessionDaoImpl implements GenericDao<Session> {
         return sessions;
     }
 
+    @Override
     public Optional<Session> add(Session session) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("INSERT INTO sessions (name) VALUES (?)",
@@ -59,6 +61,7 @@ public class SessionDaoImpl implements GenericDao<Session> {
         }
     }
 
+    @Override
     public void update(Session session) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("UPDATE sessions SET (name) = (?) WHERE id = ?")
@@ -71,6 +74,7 @@ public class SessionDaoImpl implements GenericDao<Session> {
         }
     }
 
+    @Override
     public Optional<Session> findById(int id) throws DaoException {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM sessions WHERE id = ?")

@@ -1,5 +1,6 @@
 package ru.job4j.cinema.controller;
 
+import net.jcip.annotations.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
+@ThreadSafe
 public class TicketController {
 
     public static final Logger logger = LoggerFactory.getLogger(TicketController.class);

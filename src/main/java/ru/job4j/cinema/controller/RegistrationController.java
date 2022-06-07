@@ -1,5 +1,6 @@
 package ru.job4j.cinema.controller;
 
+import net.jcip.annotations.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -7,20 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.cinema.exception.EmailReservedException;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.service.UserService;
-
-import java.util.Optional;
 
 @Controller
+@ThreadSafe
 public class RegistrationController {
 
     public static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
-
-    private final UserService userService;
-
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping("/register")
     public String register(@ModelAttribute User user, @RequestParam(name = "repeatPassword") String repeatPassword) {
