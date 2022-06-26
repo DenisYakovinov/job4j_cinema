@@ -3,6 +3,20 @@
 <br>
 Service for booking tickets to the cinema.
 
+<h2>Technologies</h2>
+<ul>
+    <li>Spring Boot</li>
+    <li>Spring MVC</li>
+    <li>Spring AOP</li>
+    <li>Bootstrap</li>
+    <li>Thymeleaf</li>
+    <li>Postgres</li>
+    <Li>liquibase</Li>
+    <li>slf4j, logback</li>
+    <li>Junit</li>
+    <li>Mockito</li>
+</ul>
+
 ### 1. The user sees available and already booked sessions
 
 ![mainPage](images_examples/mainPage.png)
@@ -38,16 +52,3 @@ no entity in database or the unavailability of the database server or password f
 
 ![errorPage.png](images_examples/errorPage.png)
 
-<h2>Technologies</h2>
-<ul>
-    <li>Spring Boot</li>
-    <li>Spring MVC</li>
-    <li>Spring AOP</li>
-    <li>Bootstrap</li>
-    <li>Thymeleaf</li>
-    <li>Postgres</li>
-    <Li>liquibase</Li>
-    <li>slf4j, logback</li>
-    <li>Junit</li>
-    <li>Mockito</li>
-</ul>

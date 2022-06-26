@@ -18,14 +18,15 @@ class RegistrationControllerTest {
         User user = new User(1, "user", "uaser@email.com", "+1-222-33-3-4", "111");
         UserService userService = mock(UserServiceImpl.class);
         when(userService.add(user)).thenReturn(Optional.of(user));
-        RegistrationController regController = new RegistrationController();
+        RegistrationController regController = new RegistrationController(userService);
         String expected = "redirect:/loginPage";
         assertEquals(expected, regController.register(user, "111"));
     }
 
     @Test
     void whenRegistrationThenReturnRegistrationPageString() {
-        RegistrationController regController = new RegistrationController();
+        UserService userService = mock(UserServiceImpl.class);
+        RegistrationController regController = new RegistrationController(userService);
         Model model = mock(Model.class);
         String page = regController.registration(model, true, true);
         verify(model).addAttribute("fail", true);

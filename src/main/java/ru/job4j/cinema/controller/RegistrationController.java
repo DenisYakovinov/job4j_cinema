@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.cinema.exception.EmailReservedException;
 import ru.job4j.cinema.model.User;
+import ru.job4j.cinema.service.UserService;
 
 @Controller
 @ThreadSafe
@@ -15,11 +16,18 @@ public class RegistrationController {
 
     public static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
+    private final UserService userService;
+
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/register")
     public String register(@ModelAttribute User user, @RequestParam(name = "repeatPassword") String repeatPassword) {
         if (!user.getPassword().equals(repeatPassword)) {
             return "redirect:/registration?failPass=true";
         }
+        userService.add(user);
         return "redirect:/loginPage";
     }
 
